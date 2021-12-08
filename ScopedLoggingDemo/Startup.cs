@@ -5,14 +5,12 @@ using System.IO;
 
 [assembly: FunctionsStartup(typeof(ScopedLoggingDemo.Startup))]
 
-namespace ScopedLoggingDemo
+namespace ScopedLoggingDemo;
+public class Startup : FunctionsStartup
 {
-    public class Startup : FunctionsStartup
+    public override void Configure(IFunctionsHostBuilder builder)
     {
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
-            var services = builder.Services;
-            services.AddTransient<ISomeService, SomeService>();
-        }
+        var services = builder.Services;
+        services.AddTransient<ISomeService, SomeService>();
     }
 }
