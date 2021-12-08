@@ -54,7 +54,7 @@ public class Function1
 
 
         _logger.LogInformation("Calling SomeService to DoSomeWork");
-        await _someService.DoSomeWork(10);
+        await _someService.DoSomeWorkScopedLogs(10);
         _logger.LogInformation("DoSomeWork completed successfully");
 
 
