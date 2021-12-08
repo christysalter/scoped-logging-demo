@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{B6161906-B36C-42BE-AA0A-E02F8D378322}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build-and-deploy.yml = .github\workflows\build-and-deploy.yml
+		.github\workflows\delete-resource-group.yml = .github\workflows\delete-resource-group.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{07E41744-4EE5-4396-B2C5-AAE60AC06A57}"
