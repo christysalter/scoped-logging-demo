@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScopedLoggingDemo", "ScopedLoggingDemo\ScopedLoggingDemo.csproj", "{D18C2DD9-11FF-43F8-9579-2B4997AC34A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScopedLoggingDemo", "ScopedLoggingDemo\ScopedLoggingDemo.csproj", "{D18C2DD9-11FF-43F8-9579-2B4997AC34A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{B6161906-B36C-42BE-AA0A-E02F8D378322}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{07E41744-4EE5-4396-B2C5-AAE60AC06A57}"
+	ProjectSection(SolutionItems) = preProject
+		Infrastructure\template.bicep = Infrastructure\template.bicep
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

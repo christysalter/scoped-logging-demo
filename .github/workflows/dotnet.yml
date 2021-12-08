@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-function:
 
     runs-on: ubuntu-latest
 
@@ -21,3 +21,19 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+
+  deploy-infrastructure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+        
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: deploy template and enable static hosting
+        run: |
+          az group create --location uksouth --name rg-scoped-logging-demo
+          az deployment group create --resource-group rg-scoped-logging-demo --template-file $GITHUB_WORKSPACE/infrastructure/template.bicep --parameters appName=scopedloggingdemo
