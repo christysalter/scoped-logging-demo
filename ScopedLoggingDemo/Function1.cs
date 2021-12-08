@@ -27,7 +27,7 @@ public class Function1
     [FunctionName(FunctionName)]
     public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
     {
-        using var logScope = _logger.BeginScope(FunctionName);
+        using var logScope = _logger.BeginScope(FunctionName + "_ThisISAScope");
 
         _logger.LogInformation("Log from within Function Run");
         _logger.LogInformation("Structured log from within function run at {currentTime}", DateTime.UtcNow);
