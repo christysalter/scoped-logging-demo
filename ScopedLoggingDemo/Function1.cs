@@ -25,7 +25,7 @@ public class Function1
 
 
     [FunctionName(FunctionName)]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
     {
         using var logScope = _logger.BeginScope(FunctionName);
 
