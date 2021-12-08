@@ -49,3 +49,7 @@ jobs:
       with:
         app-name: 'scopedloggingdemo'
         package: './output'
+
+    - name: deploy template
+      run: |
+        az functionapp config appsettings set --resource-group rg-scoped-logging-demo --name scopedloggingdemo --settings "FUNCTIONS_EXTENSION_VERSION=~4"
