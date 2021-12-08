@@ -18,7 +18,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: deploy template and enable static hosting
+      - name: deploy template
         run: |
           az group create --location uksouth --name rg-scoped-logging-demo
           az deployment group create --resource-group rg-scoped-logging-demo --template-file $GITHUB_WORKSPACE/Infrastructure/template.bicep --parameters appName=scopedloggingdemo
@@ -33,10 +33,15 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --output ./output --no-restore
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
