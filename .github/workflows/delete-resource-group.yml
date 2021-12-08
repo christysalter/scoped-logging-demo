@@ -1,12 +1,14 @@
 name: CI
 
+on:
+  push:
+    branches: [ none ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-
-  deploy-infrastructure:
+  delete-resource-group:
     runs-on: ubuntu-latest
 
     steps:
