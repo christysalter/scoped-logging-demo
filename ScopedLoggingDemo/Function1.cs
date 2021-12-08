@@ -14,8 +14,8 @@ namespace ScopedLoggingDemo;
 public class Function1
 {
     private const string FunctionName = "FunctionWithScopedLogging";
-    private const string FunctionNameNested = "FunctionWithScopedLogging_Nested";
     private const string FunctionNameErrors = "FunctionWithScopedLogging_Errors";
+    private const string FunctionNameNested = "FunctionWithScopedLogging_Nested";
 
 
 
@@ -47,29 +47,10 @@ public class Function1
         return new OkObjectResult($"Success, completed at {DateTime.UtcNow:o}");
     }
 
-    [FunctionName(FunctionNameNested)]
-    public async Task<IActionResult> FunctionWithNestedScopes([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
-    {
-        using var logScope = _logger.BeginLogScope(FunctionNameNested);
-
-        _logger.LogInformation("Log from within Function Run");
-        _logger.LogInformation("Structured log from within function run at {currentTime}", DateTime.UtcNow);
-
-
-        _logger.LogInformation("Calling SomeService to DoSomeWork");
-        await _someService.DoSomeWorkScopedLogs(10);
-        _logger.LogInformation("DoSomeWork completed successfully");
-
-
-
-        return new OkObjectResult($"Success, completed at {DateTime.UtcNow:o}");
-    }
-
-
     [FunctionName(FunctionNameErrors)]
     public async Task<IActionResult> FunctionWithScopedLoggingAndErrors([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
     {
-        using var logScope = _logger.BeginLogScope(FunctionNameNested);
+        using var logScope = _logger.BeginScope(new Dictionary<string, object> { { "ScopeName", FunctionNameErrors }, { "ScopeBeginTime", DateTime.UtcNow }, { "ScopeId", Guid.NewGuid() } });
 
         _logger.LogInformation("Log from within Function Run");
         _logger.LogInformation("Structured log from within function run at {currentTime}", DateTime.UtcNow);
@@ -84,4 +65,21 @@ public class Function1
         return new OkObjectResult($"Success, completed at {DateTime.UtcNow:o}");
     }
 
+    [FunctionName(FunctionNameNested)]
+    public async Task<IActionResult> FunctionWithNestedScopes([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
+    {
+        using var logScope = _logger.BeginScope(new Dictionary<string, object> { { "ScopeName", FunctionNameNested }, { "ScopeBeginTime", DateTime.UtcNow }, { "ScopeId", Guid.NewGuid() } });
+
+        _logger.LogInformation("Log from within Function Run");
+        _logger.LogInformation("Structured log from within function run at {currentTime}", DateTime.UtcNow);
+
+
+        _logger.LogInformation("Calling SomeService to DoSomeWork");
+        await _someService.DoSomeWorkScopedLogs(10);
+        _logger.LogInformation("DoSomeWork completed successfully");
+
+
+
+        return new OkObjectResult($"Success, completed at {DateTime.UtcNow:o}");
+    }
 }

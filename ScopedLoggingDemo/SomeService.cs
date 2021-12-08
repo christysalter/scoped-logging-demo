@@ -44,7 +44,7 @@ public class SomeService : ISomeService
 
     public async Task DoSomeWorkScopedLogs(int count)
     {
-        using var scope = _logger.BeginLogScope(nameof(SomeService));
+        using var scope = _logger.BeginScope(new Dictionary<string, object> { { "ScopeName", "DoSomeWorkScopedLogs" }, { "ScopeBeginTime", DateTime.UtcNow }, { "ScopeId", Guid.NewGuid() } });
 
         _logger.LogInformation("Log from within service");
         _logger.LogInformation("About to run {count} times", count);
