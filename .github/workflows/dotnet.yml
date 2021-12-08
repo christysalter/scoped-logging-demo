@@ -21,7 +21,7 @@ jobs:
       - name: deploy template and enable static hosting
         run: |
           az group create --location uksouth --name rg-scoped-logging-demo
-          az deployment group create --resource-group rg-scoped-logging-demo --template-file $GITHUB_WORKSPACE/infrastructure/template.bicep --parameters appName=scopedloggingdemo
+          az deployment group create --resource-group rg-scoped-logging-demo --template-file $GITHUB_WORKSPACE/Infrastructure/template.bicep --parameters appName=scopedloggingdemo
     
   deploy-website:
     needs: [deploy-infrastructure]
