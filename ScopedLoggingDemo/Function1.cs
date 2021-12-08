@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace ScopedLoggingDemo;
 
@@ -27,7 +28,7 @@ public class Function1
     [FunctionName(FunctionName)]
     public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
     {
-        using var logScope = _logger.BeginScope(FunctionName + "_ThisISAScope");
+        using var logScope = _logger.BeginScope(new Dictionary<string, object> { { "Scope", FunctionName } });
 
         _logger.LogInformation("Log from within Function Run");
         _logger.LogInformation("Structured log from within function run at {currentTime}", DateTime.UtcNow);
