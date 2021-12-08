@@ -7,21 +7,6 @@ on:
     branches: [ main ]
 
 jobs:
-  build-function:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-
   deploy-infrastructure:
     runs-on: ubuntu-latest
 
@@ -37,3 +22,26 @@ jobs:
         run: |
           az group create --location uksouth --name rg-scoped-logging-demo
           az deployment group create --resource-group rg-scoped-logging-demo --template-file $GITHUB_WORKSPACE/infrastructure/template.bicep --parameters appName=scopedloggingdemo
+    
+  deploy-website:
+    needs: [deploy-infrastructure]
+    runs-on: ubuntu-latest
+      
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --output ./output --no-restore
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: 'scopedloggingdemo'
+        package: './output'
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
