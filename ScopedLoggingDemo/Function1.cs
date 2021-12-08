@@ -28,7 +28,7 @@ public class Function1
     [FunctionName(FunctionName)]
     public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
     {
-        using var logScope = _logger.BeginScope(new Dictionary<string, object> { { "Scope", FunctionName } });
+        using var logScope = _logger.BeginScope(new Dictionary<string, object> { { "Scope", FunctionName }, { "ScopeBeginTime", DateTime.UtcNow } });
 
         _logger.LogInformation("Log from within Function Run");
         _logger.LogInformation("Structured log from within function run at {currentTime}", DateTime.UtcNow);
@@ -40,6 +40,6 @@ public class Function1
 
 
 
-        return new OkObjectResult("Success");
+        return new OkObjectResult($"Success, completed at {DateTime.UtcNow:o}");
     }
 }
