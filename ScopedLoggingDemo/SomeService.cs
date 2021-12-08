@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ public interface ISomeService
 {
     Task DoSomeWork(int count);
     Task DoSomeWorkScopedLogs(int count);
+    Task DoSomeWorkAndError();
 }
 
 public class SomeService : ISomeService
@@ -33,6 +35,12 @@ public class SomeService : ISomeService
         _logger.LogInformation("Completed DoSomeWork");
     }
 
+    public Task DoSomeWorkAndError()
+    {
+        var exception = new Exception("An error");
+        _logger.LogError(exception, "error log message");
+        throw exception;
+    }
 
     public async Task DoSomeWorkScopedLogs(int count)
     {

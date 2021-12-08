@@ -15,6 +15,9 @@ public class Function1
 {
     private const string FunctionName = "FunctionWithScopedLogging";
     private const string FunctionNameNested = "FunctionWithScopedLogging_Nested";
+    private const string FunctionNameErrors = "FunctionWithScopedLogging_Errors";
+
+
 
     private ILogger<Function1> _logger;
     private ISomeService _someService;
@@ -62,5 +65,23 @@ public class Function1
         return new OkObjectResult($"Success, completed at {DateTime.UtcNow:o}");
     }
 
+
+    [FunctionName(FunctionNameErrors)]
+    public async Task<IActionResult> FunctionWithScopedLoggingAndErrors([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
+    {
+        using var logScope = _logger.BeginLogScope(FunctionNameNested);
+
+        _logger.LogInformation("Log from within Function Run");
+        _logger.LogInformation("Structured log from within function run at {currentTime}", DateTime.UtcNow);
+
+
+        _logger.LogInformation("Calling SomeService to DoSomeWork");
+        await _someService.DoSomeWorkAndError();
+        _logger.LogInformation("DoSomeWork completed successfully");
+
+
+
+        return new OkObjectResult($"Success, completed at {DateTime.UtcNow:o}");
+    }
 
 }
