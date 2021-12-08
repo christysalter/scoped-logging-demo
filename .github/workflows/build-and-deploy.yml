@@ -49,4 +49,3 @@ jobs:
       with:
         app-name: 'scopedloggingdemo'
         package: './output'
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
