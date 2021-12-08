@@ -1,4 +1,4 @@
-name: CI
+name: delete-resource-group
 
 on:
   push:
@@ -21,4 +21,4 @@ jobs:
 
       - name: delete resource group
         run: |
-          az group delete --name rg-scoped-logging-demo
+          az group delete --name rg-scoped-logging-demo --yes
